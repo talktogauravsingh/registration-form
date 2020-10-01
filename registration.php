@@ -1,3 +1,42 @@
+<?php
+
+include '../dbconn.php';
+
+$sau='';
+
+if(isset($_POST['signup'])){
+
+	$fullname=$_POST['fname'];
+	$gmail=$_POST['gmail'];
+	$phone=$_POST['phone_no'];
+	$pass=$_POST['pass'];
+	$cnfrm=$_POST['cnfrm_pass'];
+
+	if(strcmp($pass, $cnfrm)!=0){
+		$sau='<div class="alert alert-danger text-center" role="alert">Password does not match</div>';
+	}
+
+    else
+    {  
+       $hash_pass=password_hash($pass,PASSWORD_BCRYPT);
+
+       $querry= "INSERT INTO `login`(`name`, `email`, `contact`, `password`) VALUES ('$fullname','$gmail','$phone','$hash_pass')";
+
+       $data=mysqli_query($conn,$querry);
+
+       if($data){
+       	$sau='<div class="alert alert-success text-center" role="alert">Registartion Success</div>';
+       }
+       else{
+       	$sau='<div class="alert alert-danger text-center" role="alert">Error ! Please try again</div>';
+       }
+       
+    }    
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
